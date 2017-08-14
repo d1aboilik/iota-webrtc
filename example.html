@@ -1,0 +1,23 @@
+<html>
+  <body>
+    <style>
+      #outgoing {
+        width: 600px;
+        word-wrap: break-word;
+      }
+    </style>
+    <form>
+      <textarea id="incoming"></textarea>
+      <button type="submit">submit</button>
+    </form>
+    <pre id="outgoing"></pre>
+    <script src="iota.js"></script>
+    <script src="dist/webrtc.lib.js"></script>
+    <script>
+      var iota = new IOTA({
+        provider: "http://52.58.212.188:14700"
+      })
+      var w = new WebRTC(iota)
+    </script>
+  </body>
+</html>
