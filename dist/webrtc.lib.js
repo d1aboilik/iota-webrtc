@@ -5053,8 +5053,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Peer = __webpack_require__(18);
 
 var WebRTC = function () {
-  function WebRTC() {
+  function WebRTC(iota) {
     _classCallCheck(this, WebRTC);
+
+    this.iota = iota;
   }
 
   _createClass(WebRTC, [{
@@ -5063,8 +5065,30 @@ var WebRTC = function () {
       var query = {
         addresses: [address]
       };
-      iota.api.findTransactionObjects(query, function (e, r) {
-        console.log(e, r);
+      this.iota.api.findTransactionObjects(query, function (e, r) {
+        if (e) {
+          console.error(e);
+        } else {
+          if (r.length === 0) {
+            var transfers = [{
+              address: address,
+              value: 0,
+              message: 'BLA'
+            }];
+            iota.api.prepareTransfers('ABCDEF', transfers, function (e, trytes) {
+              if (e) {
+                console.error(e);
+              } else {
+                console.log('abc', trytes);
+                iota.api.sendTrytes(trytes, 5, 2, function (e, r) {
+                  if (e) {
+                    console.error(e);
+                  }
+                });
+              }
+            });
+          }
+        }
       });
     }
   }]);
